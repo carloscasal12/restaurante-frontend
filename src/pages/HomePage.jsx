@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { fetchJson, API_BASE } from '../api'
+import { fetchJson, API_BASES } from '../api'
 import { ErrorState, LoadingState } from '../components/Status'
 
 function HomePage() {
@@ -83,7 +83,7 @@ function HomePage() {
                 <Typography variant="h2">Mapa de Restaurantes</Typography>
                 <Typography variant="body1" color="text.secondary">
                   Selecciona un restaurante para explorar sus platos, pedidos y
-                  clientes. Datos cargados en tiempo real desde {API_BASE}.
+                  clientes. Datos cargados en tiempo real desde {API_BASES[0]}.
                 </Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                   <Chip label="React + Vite" />

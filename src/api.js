@@ -1,7 +1,14 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+const rawList = import.meta.env.VITE_API_URLS
+const single = import.meta.env.VITE_API_URL
+const API_BASES = (rawList || single || 'http://localhost:4000')
+  .split(',')
+  .map((item) => item.trim())
+  .filter(Boolean)
 
-export async function fetchJson(path) {
-  const response = await fetch(`${API_BASE}${path}`)
+let resolvedBase = null
+
+async function requestJson(base, path) {
+  const response = await fetch(`${base}${path}`)
   if (!response.ok) {
     const message = `Error ${response.status} al solicitar ${path}`
     throw new Error(message)
@@ -9,4 +16,27 @@ export async function fetchJson(path) {
   return response.json()
 }
 
-export { API_BASE }
+export async function fetchJson(path) {
+  if (resolvedBase) {
+    try {
+      return await requestJson(resolvedBase, path)
+    } catch (error) {
+      resolvedBase = null
+    }
+  }
+
+  let lastError = null
+  for (const base of API_BASES) {
+    try {
+      const data = await requestJson(base, path)
+      resolvedBase = base
+      return data
+    } catch (error) {
+      lastError = error
+    }
+  }
+
+  throw lastError || new Error('No se pudo contactar con la API.')
+}
+
+export { API_BASES }

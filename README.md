@@ -19,7 +19,8 @@ Aplicación React + Vite que consume la API del proyecto restaurante-backend.
 
 ## Configuración
 - Usa `.env` para desarrollo y `.env.production` para despliegue.
-- Variable: `VITE_API_URL` (por defecto `http://localhost:4000`).
+- Variable principal: `VITE_API_URLS` (lista separada por comas).
+- Ejemplo: `https://restaurants.arasaac.org,http://localhost:4000`.
 
 ## Despliegue (GitHub Pages)
 1. `npm run build`
